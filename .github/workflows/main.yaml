@@ -189,6 +189,7 @@ jobs:
           MAC_BUILD_PATH: ${{ format('{0}/build/StandaloneOSX', github.workspace) }}
           PROJECT_NAME: GameBaseSeedUnity
         run: |
+          cd ${{ github.workspace }}/${{ matrix.projectPath }}
           bundle install
           bundle exec fastlane mac fixversion
           find $MAC_BUILD_PATH -type f -name "**.sh" -exec chmod +x {} \;
