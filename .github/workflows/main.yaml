@@ -177,27 +177,27 @@ jobs:
           unityVersion: ${{ matrix.unityVersion }}
           targetPlatform: ${{ matrix.targetPlatform }}
           #customParameters: '-myParameter myValue -myBoolean -ThirdParameter andItsValue'
-#      - name: Fix File Permissions and Code-Sign
-#        env:
-#          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
-#          APPLE_TEAM_NAME: ${{ secrets.APPLE_TEAM_NAME }}
-#          APPLE_DISTRIBUTION_CERTIFICATE: ${{ secrets.APPLE_DISTRIBUTION_CERTIFICATE }}
-#          APPLE_DISTRIBUTION_PASSWORD: ${{ secrets.APPLE_DISTRIBUTION_PASSWORD }}
-#          MAC_INSTALLER_CERTIFICATE: ${{ secrets.MAC_INSTALLER_CERTIFICATE }}
-#          MAC_INSTALLER_PASSWORD: ${{ secrets.MAC_INSTALLER_PASSWORD }}
-#          MAC_APP_BUNDLE_PATHS: Contents/PlugIns/StandaloneFileBrowser.bundle
-#          MAC_BUILD_PATH: ${{ format('{0}/build/StandaloneOSX', github.workspace) }}
-#          PROJECT_NAME: GameBaseSeedUnity
-#        run: |
-#          bundle install
-#          bundle exec fastlane mac fixversion
-#          find $MAC_BUILD_PATH -type f -name "**.sh" -exec chmod +x {} \;
-#          chmod +x fastlane/sign-mac-build.sh
-#          ./fastlane/sign-mac-build.sh
-          
-      - name: Fix File Permissions
+      - name: Fix File Permissions and Code-Sign
+        env:
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          APPLE_TEAM_NAME: ${{ secrets.APPLE_TEAM_NAME }}
+          APPLE_DISTRIBUTION_CERTIFICATE: ${{ secrets.APPLE_DISTRIBUTION_CERTIFICATE }}
+          APPLE_DISTRIBUTION_PASSWORD: ${{ secrets.APPLE_DISTRIBUTION_PASSWORD }}
+          MAC_INSTALLER_CERTIFICATE: ${{ secrets.MAC_INSTALLER_CERTIFICATE }}
+          MAC_INSTALLER_PASSWORD: ${{ secrets.MAC_INSTALLER_PASSWORD }}
+          MAC_APP_BUNDLE_PATHS: Contents/PlugIns/StandaloneFileBrowser.bundle
+          MAC_BUILD_PATH: ${{ format('{0}/build/StandaloneOSX', github.workspace) }}
+          PROJECT_NAME: GameBaseSeedUnity
         run: |
-          chmod +x ${{ github.workspace }}/build/StandaloneOSX/StandaloneOSX.app/Contents/MacOS/GameBaseSeedUnity
+          bundle install
+          bundle exec fastlane mac fixversion
+          find $MAC_BUILD_PATH -type f -name "**.sh" -exec chmod +x {} \;
+          chmod +x fastlane/sign-mac-build.sh
+          ./fastlane/sign-mac-build.sh
+          
+#      - name: Fix File Permissions
+#        run: |
+#          chmod +x ${{ github.workspace }}/build/StandaloneOSX/StandaloneOSX.app/Contents/MacOS/GameBaseSeedUnity
 #          xattr -d com.apple.quarantine ${{ github.workspace }}/build/StandaloneOSX/StandaloneOSX.app/Contents/MacOS/GameBaseSeedUnity
           
       - uses: actions/upload-artifact@v2
