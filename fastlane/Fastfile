@@ -1,0 +1,23 @@
+platform :mac do
+
+  desc "Hack so that Apple doesn't reject the mac build due to a mistake in versioning" 
+  lane :fixversion do
+    update_plist(
+      plist_path: "#{ENV['MAC_BUILD_PATH']}/StandaloneOSX.app/Contents/Info.plist",
+      block: proc do |plist|
+        plist[:CFBundleVersion] = '9' + plist['CFBundleVersion']
+      end
+    )
+  end
+
+  desc "Upload a new Mac version to the Mac App Store"
+  lane :macupload do
+    app_store_connect_api_key(
+      key_id: ENV['APPSTORE_KEY_ID'],
+      issuer_id: ENV['APPSTORE_ISSUER_ID'],
+      key_content: ENV['APPSTORE_P8']
+    )
+    deliver
+  end
+
+end
