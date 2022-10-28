@@ -39,6 +39,9 @@ sleep 10
 mv "${MAC_BUILD_PATH}/StandaloneOSX.app" "${MAC_BUILD_PATH}/${PROJECT_NAME}.app"
 
 chmod -R a+xr "${MAC_BUILD_PATH}/${PROJECT_NAME}.app"
+chmod a+xr "${MAC_BUILD_PATH}/${PROJECT_NAME}.app/Contents/MacOS/${PROJECT_NAME}"
+xattr -d com.apple.quarantine "${MAC_BUILD_PATH}/${PROJECT_NAME}.app/Contents/MacOS/${PROJECT_NAME}"
+
 bundlepaths=$(echo $MAC_APP_BUNDLE_PATHS | tr ";" "\n")
 for bundlepath in $bundlepaths
 do
