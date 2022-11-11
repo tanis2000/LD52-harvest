@@ -21,12 +21,12 @@ jobs:
           #- Android # Build an Android player.
           - WebGL # WebGL.
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           path: ${{ matrix.projectPath }}
           fetch-depth: 0
           lfs: true
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           repository: tanis2000/GameBaseUnity
           ref: master
@@ -68,7 +68,7 @@ jobs:
           #customParameters: '-myParameter myValue -myBoolean -ThirdParameter andItsValue'
       - uses: actions/upload-artifact@v3
         with:
-          name: ${{ matrix.projectPath }}
+          name: ${{ matrix.projectPath }}-${{ matrix.targetPlatform }}
           path: build
 
   buildForWindowsBasedPlatforms:
@@ -90,12 +90,12 @@ jobs:
           #- WSAPlayer # Build a UWP App.
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           path: ${{ matrix.projectPath }}
           fetch-depth: 0
           lfs: true
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           repository: tanis2000/GameBaseUnity
           ref: master
@@ -124,7 +124,7 @@ jobs:
           #customParameters: '-myParameter myValue -myBoolean -ThirdParameter andItsValue'
       - uses: actions/upload-artifact@v3
         with:
-          name: Build
+          name: ${{ matrix.projectPath }}-${{ matrix.targetPlatform }}
           path: build
 
   buildForMacOSBasedPlatforms:
@@ -143,12 +143,12 @@ jobs:
           - StandaloneOSX # Build a macOS standalone.
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           path: ${{ matrix.projectPath }}
           fetch-depth: 0
           lfs: true
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           repository: tanis2000/GameBaseUnity
           ref: master
@@ -203,5 +203,5 @@ jobs:
           
       - uses: actions/upload-artifact@v3
         with:
-          name: ${{ matrix.projectPath }}
+          name: ${{ matrix.projectPath }}-${{ matrix.targetPlatform }}
           path: build
