@@ -33,7 +33,7 @@ jobs:
           path: ${{ matrix.gameBasePath }}
           fetch-depth: 0
           lfs: true
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         with:
           path: ${{ matrix.projectPath }}/Library
           key:
@@ -51,7 +51,7 @@ jobs:
 #          projectPath: ${{ matrix.projectPath }}
 #          unityVersion: ${{ matrix.unityVersion }}
 #          githubToken: ${{ secrets.GITHUB_TOKEN }}
-#      - uses: actions/upload-artifact@v2
+#      - uses: actions/upload-artifact@v3
 #        if: always()
 #        with:
 #          name: Test results (all modes)
@@ -66,9 +66,9 @@ jobs:
           unityVersion: ${{ matrix.unityVersion }}
           targetPlatform: ${{ matrix.targetPlatform }}
           #customParameters: '-myParameter myValue -myBoolean -ThirdParameter andItsValue'
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
-          name: Build
+          name: ${{ matrix.projectPath }}
           path: build
 
   buildForWindowsBasedPlatforms:
@@ -102,7 +102,7 @@ jobs:
           path: ${{ matrix.gameBasePath }}
           fetch-depth: 0
           lfs: true
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         with:
           path: ${{ matrix.projectPath }}/Library
           key:
@@ -122,7 +122,7 @@ jobs:
           unityVersion: ${{ matrix.unityVersion }}
           targetPlatform: ${{ matrix.targetPlatform }}
           #customParameters: '-myParameter myValue -myBoolean -ThirdParameter andItsValue'
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: Build
           path: build
@@ -156,7 +156,7 @@ jobs:
           fetch-depth: 0
           lfs: true
 
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         with:
           path: ${{ matrix.projectPath }}/Library
           key:
@@ -204,4 +204,4 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: ${{ matrix.projectPath }}
-          path: build/${{ matrix.projectPath }}
+          path: build
