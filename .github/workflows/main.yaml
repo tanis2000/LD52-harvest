@@ -69,7 +69,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: ${{ matrix.projectPath }}-${{ matrix.targetPlatform }}
-          path: build
+          path: build/${{ matrix.targetPlatform }}
 
   buildForWindowsBasedPlatforms:
     name: Build for ${{ matrix.targetPlatform }}
