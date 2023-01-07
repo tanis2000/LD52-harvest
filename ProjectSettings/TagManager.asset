@@ -11,6 +11,13 @@ TagManager:
   - 
   - Water
   - UI
+  - Floor
+  - Walls
+  - Player
+  - Enemies
+  - Player Projectiles
+  - Enemy Projectiles
+  - Coins
   - 
   - 
   - 
@@ -27,15 +34,8 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Post Processing
+  - Guides
   - 
   m_SortingLayers:
   - name: Default
