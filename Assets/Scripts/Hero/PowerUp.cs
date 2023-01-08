@@ -6,5 +6,7 @@ namespace App.Hero
     {
         public float BaseDamageIncPercentage;
         public float BaseAreaIncPercentage;
+        public float BaseSpeedIncPercentage;
+        public float BasePickupRangeIncPercentage;
     }
 }

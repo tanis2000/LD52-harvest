@@ -1,10 +1,11 @@
 using App.Damage;
+using App.Hero.Actions;
 using GameBase.Utils;
 using UnityEngine;
 
 namespace App.Hero
 {
-    public class MovementAction : MonoBehaviour
+    public class MovementAction : HeroAction
     {
         public float Acceleration = 100f;
         public float MaxSpeed = 9f;
@@ -100,10 +101,11 @@ namespace App.Hero
                 movement.Normalize();
             }
 
+            var realMaxSpeed = GetMaxSpeed();
             // Calculate a factor that relates the current speed to the max speed
             // Close to max ->  [0..1] <- Far from max 
             // Describing the amount of acceleration should be added to reach the max speed
-            var factor = Mathf.Clamp01((MaxSpeed - body.velocity.magnitude) / MaxSpeed);
+            var factor = Mathf.Clamp01((realMaxSpeed - body.velocity.magnitude) / realMaxSpeed);
 
             // Give extra acceleration if you are changing direction
             var directionFactor = -Mathf.Min(0f, Vector3.Dot(movement.normalized, body.velocity.FlatY().normalized));
@@ -112,5 +114,17 @@ namespace App.Hero
             // Apply the velocity
             body.velocity += Acceleration * movement * factor * Time.fixedDeltaTime;
         }
+        
+        private float GetMaxSpeed()
+        {
+            var res = MaxSpeed;
+            foreach (var powerUp in PowerUps)
+            {
+                res += MaxSpeed * powerUp.BaseSpeedIncPercentage;
+            }
+
+            return res;
+        }
+
     }
 }

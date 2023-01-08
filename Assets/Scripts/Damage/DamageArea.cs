@@ -23,7 +23,6 @@ namespace App.Damage
                 LayerMask
             );
 
-            Debug.Log($"colliders {colliders.Length}");
             foreach (var col in colliders)
             {
                 var hitBox = col.GetComponent<HitBox>();

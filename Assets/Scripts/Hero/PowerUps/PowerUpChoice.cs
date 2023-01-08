@@ -54,7 +54,24 @@ namespace App.Hero.PowerUps
             });
             var text = go.GetComponentInChildren<TMP_Text>();
             var nextPowerUp = container.GetNextPowerUp();
-            text.text = $"XXX\n+{nextPowerUp.BaseDamageIncPercentage*100}% DAMAGE\n+{nextPowerUp.BaseAreaIncPercentage*100}% AREA";
+            var desc = "";
+            if (nextPowerUp.BaseDamageIncPercentage > 0)
+            {
+                desc += $" +{nextPowerUp.BaseDamageIncPercentage * 100}% DAMAGE";
+            }
+            if (nextPowerUp.BaseAreaIncPercentage > 0)
+            {
+                desc += $" +{nextPowerUp.BaseAreaIncPercentage * 100}% AREA";
+            }
+            if (nextPowerUp.BaseSpeedIncPercentage > 0)
+            {
+                desc += $" +{nextPowerUp.BaseSpeedIncPercentage * 100}% MOVEMENT SPEED";
+            }
+            if (nextPowerUp.BasePickupRangeIncPercentage > 0)
+            {
+                desc += $" +{nextPowerUp.BasePickupRangeIncPercentage * 100}% PICKUP RANGE";
+            }
+            text.text = $"{container.PowerUpName}\n{desc}";
         }
     }
 }

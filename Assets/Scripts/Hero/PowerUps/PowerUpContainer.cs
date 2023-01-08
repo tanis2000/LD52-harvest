@@ -10,6 +10,7 @@ namespace App.Hero.PowerUps
         public List<PowerUp> AvailablePowerUps;
         public List<PowerUp> ObtainedPowerUps;
         public HeroAction HeroAction;
+        public string PowerUpName;
 
         public PowerUp GetNextPowerUp()
         {

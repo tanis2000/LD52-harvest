@@ -1,11 +1,12 @@
 using System;
+using App.Hero.Actions;
 using App.Props;
 using GameBase.Utils;
 using UnityEngine;
 
 namespace App.Hero
 {
-    public class CoinAttractAction : MonoBehaviour
+    public class CoinAttractAction : HeroAction
     {
         public float Radius;
         public LayerMask LayerMask;
@@ -15,7 +16,7 @@ namespace App.Hero
         {
             var colliders = Physics.OverlapSphere(
                 transform.position,
-                Radius,
+                GetPickupRadius(),
                 LayerMask
             );
 
@@ -35,6 +36,18 @@ namespace App.Hero
                 }
             }
         }
+        
+        private float GetPickupRadius()
+        {
+            var res = Radius;
+            foreach (var powerUp in PowerUps)
+            {
+                res += Radius * powerUp.BasePickupRangeIncPercentage;
+            }
+
+            return res;
+        }
+
 
         private void OnDrawGizmos()
         {

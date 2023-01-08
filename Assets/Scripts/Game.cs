@@ -1,4 +1,5 @@
 using System;
+using GameBase.Audio;
 using UnityEngine;
 
 namespace App
@@ -24,6 +25,7 @@ namespace App
         private void OnEnable()
         {
             instance = this;
+            PlayMainTheme();
         }
 
         public bool IsPaused()
@@ -39,6 +41,11 @@ namespace App
         public void Resume()
         {
             isPaused = false;
+        }
+
+        public void PlayMainTheme()
+        {
+            AudioSystem.Instance().Play("SoundTheme1");
         }
     }
 }

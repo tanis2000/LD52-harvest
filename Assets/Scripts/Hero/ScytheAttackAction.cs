@@ -17,17 +17,24 @@ namespace App.Hero
         private Animator heroAnimator;
         private float cd;
         private static readonly int Swing = Animator.StringToHash("swing");
+        private Health health;
 
         private void OnEnable()
         {
             heroAnimator = GetComponent<Animator>();
             DamageArea = GetComponentInChildren<DamageArea>();
+            health = GetComponent<Health>();
             cd = Cooldown;
         }
 
         private void Update()
         {
             if (Game.Instance.IsPaused())
+            {
+                return;
+            }
+
+            if (!health.IsAlive)
             {
                 return;
             }

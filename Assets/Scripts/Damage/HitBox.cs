@@ -1,3 +1,4 @@
+using GameBase.Audio;
 using UnityEngine;
 
 namespace App.Damage
@@ -21,6 +22,15 @@ namespace App.Damage
                 return;
             }
             Health.Modify(damageInfo.Delta);
+            Debug.Log(damageInfo.Source.name);
+            if (damageInfo.Source.name == "ScytheDamageArea")
+            {
+                AudioSystem.Instance().Play("SoundHit");
+            }
+            else
+            {
+                AudioSystem.Instance().Play("SoundHurt");
+            }
             //bleed.DoBleed();
         }
     }

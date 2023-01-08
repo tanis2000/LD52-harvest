@@ -12,9 +12,7 @@ namespace App.Damage
 
         public void Modify(float delta)
         {
-            Debug.Log($"old amount {Amount}");
             Amount = Mathf.Clamp(Amount + delta, 0f, Max);
-            Debug.Log($"new amount {Amount}");
         }
     }
 }
