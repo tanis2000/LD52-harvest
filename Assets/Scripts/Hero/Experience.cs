@@ -20,7 +20,7 @@ namespace App.Hero
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.L))
+            if (Input.GetKeyDown(KeyCode.L) && Application.isEditor)
             {
                 LevelUp();
             }
@@ -35,7 +35,7 @@ namespace App.Hero
         {
             Max += 10;
             Amount = 0;
-            level.Amount++;
+            level.Increase();
             Game.Instance.Pause();
             ShowPowerUps();
         }

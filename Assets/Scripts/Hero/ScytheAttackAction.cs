@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using App.Damage;
 using App.Hero.Actions;
+using GameBase.Animations;
 using UnityEngine;
 
 namespace App.Hero
@@ -11,6 +12,7 @@ namespace App.Hero
         public float Cooldown = 2;
         public float BaseDamage = 10;
         public DamageArea DamageArea;
+        public Transform Bubble;
 
         private Animator heroAnimator;
         private float cd;
@@ -35,7 +37,12 @@ namespace App.Hero
             {
                 heroAnimator.SetBool(Swing, true);
                 cd = Cooldown;
-                DamageArea.Trigger(GetBaseDamage());
+                var area = GetBaseArea(DamageArea.BaseRadius);
+                DamageArea.Trigger(GetBaseDamage(), area);
+
+                var size = new Vector3(area*2, area*2, area*2);
+                Tweener.Instance.ScaleTo(Bubble, size, 0.2f, 0f, TweenEasings.BounceEaseOut);
+                Invoke(nameof(HideBubble), 0.2f);
             }
             else
             {
@@ -54,5 +61,20 @@ namespace App.Hero
             return res;
         }
 
+        private float GetBaseArea(float baseArea)
+        {
+            var res = baseArea;
+            foreach (var powerUp in PowerUps)
+            {
+                res += baseArea * powerUp.BaseAreaIncPercentage;
+            }
+
+            return res;
+        }
+
+        private void HideBubble()
+        {
+            Tweener.Instance.ScaleTo(Bubble, Vector3.zero, 0.1f, 0f, TweenEasings.QuadraticEaseOut);
+        }
     }
 }

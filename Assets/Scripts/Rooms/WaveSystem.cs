@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using App.Damage;
 using App.Enemies;
 using GameBase.Utils;
 using UnityEngine;
@@ -26,11 +27,12 @@ namespace App.Rooms
             var random = new XRandom(1337);
             yield return new WaitForSeconds(1f);
 
-            var waves = 3;
-            for (var i = 0; i < waves; i++)
+            var health = Hero.GetComponent<Health>();
+            var wave = 1;
+            while (health.IsAlive)
             {
                 var enemies = new List<ChaserEnemy>();
-                var enemyCount = 3;
+                var enemyCount = random.Range(Mathf.Min(wave, 10), Mathf.Min(wave*3, 20));
                 var spawnPoints = random.ItemTake(enemySpawners, enemyCount);
 
                 foreach (var spawnPoint in spawnPoints)
@@ -57,12 +59,16 @@ namespace App.Rooms
                     ).GetComponent<ChaserEnemy>();
                     enemy.Target = null;
                     enemies.Add(enemy);
+                    var h = enemy.GetComponent<Health>();
+                    h.Amount = h.Max.GetRandom();
                 }
 
                 while (enemies.Any(e => e.Health.IsAlive))
                 {
                     yield return null;
                 }
+
+                wave++;
             }
         }
     }

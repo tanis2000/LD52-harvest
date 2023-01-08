@@ -1,6 +1,9 @@
+using System;
 using System.Collections;
 using App.Damage;
+using GameBase.Animations;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace App.Enemies
 {
@@ -16,17 +19,27 @@ namespace App.Enemies
         public float SightWaitTime = 1.0f;
         public float RoamSpeed = 4;
         public float RandomRange = 5;
+        public float AttackCooldown = 0.5f;
+        public int BaseDamage = 5;
+
+        private static readonly int Jump = Animator.StringToHash("jump");
 
         private CharacterController characterController;
         private Health health;
         private Collider[] sightResults = new Collider[1];
         private SubmitScore submitScore;
+        private DamageArea damageArea;
+        private float attackRemainingCooldown;
+        private Animator animator;
 
         private void OnEnable()
         {
             characterController = GetComponent<CharacterController>();
             health = GetComponent<Health>();
             submitScore = FindObjectOfType<SubmitScore>();
+            damageArea = GetComponentInChildren<DamageArea>();
+            attackRemainingCooldown = AttackCooldown;
+            animator = GetComponent<Animator>();
         }
 
 
@@ -53,6 +66,11 @@ namespace App.Enemies
                         var direction = (Target.position - transform.position).normalized;
                         characterController.Move(direction * Speed * Time.deltaTime);
                         transform.forward = direction;
+                        animator.SetBool(Jump, true);
+                    }
+                    else
+                    {
+                        animator.SetBool(Jump, false);
                     }
                 }
             }
@@ -115,6 +133,27 @@ namespace App.Enemies
             Target = t;
         }
 
+        private void Update()
+        {
+            if (Game.Instance.IsPaused())
+            {
+                return;
+            }
+
+            if (!health.IsAlive)
+            {
+                return;
+            }
+            
+            attackRemainingCooldown -= Time.deltaTime;
+            if (attackRemainingCooldown <= 0)
+            {
+                attackRemainingCooldown = AttackCooldown;
+                damageArea.Trigger(BaseDamage, damageArea.BaseRadius);
+            }
+
+        }
+        
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.blue;

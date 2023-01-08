@@ -52,6 +52,7 @@ namespace App.Hero
         {
             if (Game.Instance.IsPaused())
             {
+                body.velocity = Vector3.zero;
                 return;
             }
 

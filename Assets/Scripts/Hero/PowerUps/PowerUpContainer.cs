@@ -41,6 +41,7 @@ namespace App.Hero.PowerUps
                 if (!ObtainedPowerUps.Contains(availablePowerUp))
                 {
                     ObtainedPowerUps.Add(availablePowerUp);
+                    HeroAction.AddPowerUp(availablePowerUp);
                     break;
                 }
             }

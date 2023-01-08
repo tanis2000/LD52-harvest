@@ -1,31 +1,32 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace App.Damage
 {
     public class DamageArea : MonoBehaviour
     {
-        public float Radius = 3f;
+        public float BaseRadius = 3f;
         public LayerMask LayerMask;
 
         private DamageSource damageSource;
-        private float lastDamage = 0f;
 
         private void OnEnable()
         {
             damageSource = GetComponent<DamageSource>();
         }
 
-        public void Trigger(float damage)
+        public void Trigger(float damage, float radius)
         {
             var colliders = Physics.OverlapSphere(
                 transform.position,
-                Radius,
+                radius,
                 LayerMask
             );
 
-            foreach (var collider in colliders)
+            Debug.Log($"colliders {colliders.Length}");
+            foreach (var col in colliders)
             {
-                var hitBox = collider.GetComponent<HitBox>();
+                var hitBox = col.GetComponent<HitBox>();
                 if (hitBox == null)
                 {
                     continue;
@@ -45,7 +46,7 @@ namespace App.Damage
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(transform.position, Radius);
+            Gizmos.DrawWireSphere(transform.position, BaseRadius);
         }
     }
 }

@@ -25,12 +25,20 @@ namespace App.Hero.PowerUps
         public void CreateList()
         {
             DestroyUtils.DestroyChildren(Wrapper);
+            var createdButtons = 0;
             foreach (var container in PowerUpContainers)
             {
                 if (container.NumberOfAvailablePowerUps() > 0)
                 {
                     CreateButton(container);
+                    createdButtons++;
                 }
+            }
+
+            if (createdButtons == 0)
+            {
+                Hide();
+                Game.Instance.Resume();
             }
         }
 

@@ -7,6 +7,10 @@ namespace App.Hero.Actions
     public class HeroAction : MonoBehaviour
     {
         protected List<PowerUp> PowerUps = new List<PowerUp>();
-        
+
+        public void AddPowerUp(PowerUp powerUp)
+        {
+            PowerUps.Add(powerUp);
+        }
     }
 }
