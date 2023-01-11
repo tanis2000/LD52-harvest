@@ -10,6 +10,7 @@ namespace App.Hero
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
+            Debug.Log($"IsOwner {IsOwner} IsLocalPlayer {IsLocalPlayer}");
             if (IsOwner)
             {
                 Spawn();
@@ -26,6 +27,11 @@ namespace App.Hero
             }
             else
             {
+                Position.OnValueChanged += (oldValue, newValue) =>
+                {
+                    Debug.Log($"received position {Position.Value}");
+                    transform.position = Position.Value;
+                };
                 SubmitPositionRequestServerRpc();
             }
         }
