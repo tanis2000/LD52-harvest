@@ -11,13 +11,14 @@ namespace App.Hero
 
         private void OnEnable()
         {
-            LevelText.text = $"{Amount}";
+            //TODO: turn this around and make sure there is a script on the text component that looks for the player level component and updates the value
+            //LevelText.text = $"{Amount}";
         }
 
         public void Increase()
         {
             Amount++;
-            LevelText.text = $"{Amount}";
+            //LevelText.text = $"{Amount}";
         }
     }
 }
