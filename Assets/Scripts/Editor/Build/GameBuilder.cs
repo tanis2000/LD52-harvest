@@ -34,6 +34,12 @@ namespace App.Editor.Build
         {
             BuildGame($"/Linux/{Application.productName}.x86_64", BuildTargetGroup.Standalone, BuildTarget.StandaloneLinux64);
         }
+        
+        [MenuItem("Builds/WebGL Build")]
+        private static void BuildWebGLGame()
+        {
+            BuildGame($"/WebGL/{Application.productName}", BuildTargetGroup.WebGL, BuildTarget.WebGL);
+        }
 
         private static void BuildGame(string versionPath, BuildTargetGroup buildTargetGroup, BuildTarget buildTarget)
         {
