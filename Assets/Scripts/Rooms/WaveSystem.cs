@@ -1,10 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using App.Damage;
 using App.Enemies;
 using App.Hero;
+using GameBase.SceneChanger;
 using GameBase.Utils;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace App.Rooms
@@ -13,7 +16,6 @@ namespace App.Rooms
     {
         public EnemySpawnInfo[] EnemySpawnInfo;
         public Transform SpawnEffect;
-        public Transform Hero;
         public Transform Room;
         public float WaveInterval = 60.0f;
         public int EnemiesLimit = 300;
@@ -25,16 +27,23 @@ namespace App.Rooms
             enemySpawners = Room.GetComponentsInChildren<EnemySpawner>();
         }
 
-        private IEnumerator Start()
+        private void Start()
+        {
+            if (!NetworkManager.Singleton.IsServer)
+            {
+                return;
+            }
+
+            StartCoroutine(RunWave());
+        }
+
+        private IEnumerator RunWave()
         {
             var random = new XRandom(1337);
             yield return new WaitForSeconds(1f);
-
-            var health = Hero.GetComponent<Health>();
-            var level = Hero.GetComponent<Level>();
             var wave = 1;
             
-            while (health.IsAlive)
+            while (AtLeastOnePlayerAlive())
             {
                 var enemies = new List<ChaserEnemy>();
                 var enemyCount = random.Range(Mathf.Min(wave*10, 100), Mathf.Min(wave*12, 200));
@@ -76,6 +85,8 @@ namespace App.Rooms
                             enemies.Add(enemy);
                             var h = enemy.GetComponent<Health>();
                             h.Amount = h.Max.GetRandom();
+                            var no = enemy.GetComponent<NetworkObject>();
+                            no.Spawn(true);
                         }
                     }
 
@@ -85,6 +96,22 @@ namespace App.Rooms
                 
                 wave++;
             }
+            
         }
+        
+        private bool AtLeastOnePlayerAlive()
+        {
+            var serverCharacters = PlayerServerCharacter.GetPlayerServerCharacters();
+            foreach (var serverCharacter in serverCharacters)
+            {
+                var health = serverCharacter.GetComponent<Health>();
+                if (health.IsAlive)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
     }
 }

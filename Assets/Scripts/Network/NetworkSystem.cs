@@ -1,3 +1,4 @@
+using System;
 using App.Hero;
 using Unity.Netcode;
 using UnityEngine;
@@ -6,6 +7,8 @@ namespace App.Network
 {
     public class NetworkSystem : MonoBehaviour
     {
+        public NetworkSceneChanger.NetworkSceneChangerObject SceneChangerObject;
+        
         void OnGUI()
         {
             GUILayout.BeginArea(new Rect(10, 10, 300, 300));
@@ -57,5 +60,22 @@ namespace App.Network
                 }
             }
         }
+
+        public void StartSinglePlayer()
+        {
+            NetworkManager.Singleton.StartHost();
+            SceneChangerObject.ChangeScene("Main");
+        }
+
+        public void StartServer()
+        {
+            NetworkManager.Singleton.StartServer();
+        }
+
+        public void StartClient()
+        {
+            NetworkManager.Singleton.StartClient();
+        }
+        
     }
 }

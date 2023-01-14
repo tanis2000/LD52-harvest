@@ -38,7 +38,7 @@ namespace App
         {
             if (string.IsNullOrEmpty(Field.text)) return;
             PlayerPrefs.SetString("PlayerName", Field.text);
-            SceneChanger.Instance.ChangeScene("Main");
+            NetworkSceneChanger.NetworkSceneChanger.Instance.ChangeScene("Main");
         }
     }
 }

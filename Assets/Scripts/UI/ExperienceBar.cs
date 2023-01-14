@@ -14,7 +14,8 @@ namespace App.UI
 
         private void Update()
         {
-            Slider.value = (float)Experience.Amount / (float)Experience.Max;
+            // TODO do this the other way around and let the player update this bar
+            //Slider.value = (float)Experience.Amount / (float)Experience.Max;
         }
 
     }

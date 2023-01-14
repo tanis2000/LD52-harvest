@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using App.Damage;
 using GameBase.Animations;
+using Unity.Netcode;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -96,7 +97,11 @@ namespace App.Enemies
             }
 
             submitScore.IncrementScore(1);
-            Destroy(gameObject);
+            // TODO: move this code in the ServerCharacter script
+            if (NetworkManager.Singleton.IsServer)
+            {
+                Destroy(gameObject);
+            }
         }
 
         private IEnumerator FindTargetInSight()
