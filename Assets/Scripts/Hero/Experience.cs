@@ -36,7 +36,7 @@ namespace App.Hero
             Max += 10;
             Amount = 0;
             level.Increase();
-            Game.Instance.Pause();
+            //Game.Instance.Pause();
             ShowPowerUps();
         }
 

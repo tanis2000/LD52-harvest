@@ -1,6 +1,9 @@
 using System.Collections.Generic;
+using System.Linq;
+using App.Hero.Actions;
 using GameBase.Utils;
 using TMPro;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,13 +27,17 @@ namespace App.Hero.PowerUps
 
         public void CreateList()
         {
+            var serverCharacter = PlayerServerCharacter.GetPlayerServerCharacter(NetworkManager.Singleton.LocalClientId);;
+            var actions = serverCharacter.GetComponentsInChildren<HeroAction>();
+            
             DestroyUtils.DestroyChildren(Wrapper);
             var createdButtons = 0;
             foreach (var container in PowerUpContainers)
             {
-                if (container.NumberOfAvailablePowerUps() > 0)
+                var correspondingAction = actions.First(x => x.HeroActionType == container.HeroActionType);
+                if (container.NumberOfAvailablePowerUps(correspondingAction) > 0)
                 {
-                    CreateButton(container);
+                    CreateButton(container, correspondingAction);
                     createdButtons++;
                 }
             }
@@ -38,22 +45,22 @@ namespace App.Hero.PowerUps
             if (createdButtons == 0)
             {
                 Hide();
-                Game.Instance.Resume();
+                //Game.Instance.Resume();
             }
         }
 
-        public void CreateButton(PowerUpContainer container)
+        public void CreateButton(PowerUpContainer container, HeroAction heroAction)
         {
             var go = Instantiate(ButtonPrefab, Wrapper);
             var btn = go.GetComponentInChildren<Button>();
             btn.onClick.AddListener(() =>
             {
-                container.AddNextPowerUp();
+                container.AddNextPowerUp(heroAction);
                 Hide();
-                Game.Instance.Resume();
+                //Game.Instance.Resume();
             });
             var text = go.GetComponentInChildren<TMP_Text>();
-            var nextPowerUp = container.GetNextPowerUp();
+            var nextPowerUp = container.GetNextPowerUp(heroAction);
             var desc = "";
             if (nextPowerUp.BaseDamageIncPercentage > 0)
             {

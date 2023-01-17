@@ -8,20 +8,21 @@ namespace App.Hero.PowerUps
     public class PowerUpContainer: MonoBehaviour
     {
         public List<PowerUp> AvailablePowerUps;
-        public List<PowerUp> ObtainedPowerUps;
-        public HeroAction HeroAction;
+        // public List<PowerUp> ObtainedPowerUps;
+        // public HeroAction HeroAction;
+        public HeroActionType HeroActionType;
         public string PowerUpName;
 
-        public PowerUp GetNextPowerUp()
+        public PowerUp GetNextPowerUp(HeroAction heroAction)
         {
-            if (ObtainedPowerUps.Count == AvailablePowerUps.Count)
+            if (heroAction.NumberOfPowerUps() == AvailablePowerUps.Count)
             {
                 return null;
             }
 
             foreach (var availablePowerUp in AvailablePowerUps)
             {
-                if (!ObtainedPowerUps.Contains(availablePowerUp))
+                if (!heroAction.PowerUps.Contains(availablePowerUp))
                 {
                     return availablePowerUp;
                 }
@@ -30,27 +31,26 @@ namespace App.Hero.PowerUps
             return null;
         }
         
-        public void AddNextPowerUp()
+        public void AddNextPowerUp(HeroAction heroAction)
         {
-            if (ObtainedPowerUps.Count == AvailablePowerUps.Count)
+            if (heroAction.NumberOfPowerUps() == AvailablePowerUps.Count)
             {
                 return;
             }
 
             foreach (var availablePowerUp in AvailablePowerUps)
             {
-                if (!ObtainedPowerUps.Contains(availablePowerUp))
+                if (!heroAction.PowerUps.Contains(availablePowerUp))
                 {
-                    ObtainedPowerUps.Add(availablePowerUp);
-                    HeroAction.AddPowerUp(availablePowerUp);
+                    heroAction.AddPowerUp(availablePowerUp);
                     break;
                 }
             }
         }
 
-        public int NumberOfAvailablePowerUps()
+        public int NumberOfAvailablePowerUps(HeroAction heroAction)
         {
-            return AvailablePowerUps.Count - ObtainedPowerUps.Count;
+            return AvailablePowerUps.Count - heroAction.NumberOfPowerUps();
         }
 
     }

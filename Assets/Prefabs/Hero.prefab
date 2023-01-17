@@ -253,6 +253,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a133bf56960c45faad18f085b4264aaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HeroActionType: 1
   Acceleration: 400
   MaxSpeed: 17
   Damp: 20
@@ -324,6 +325,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01f582776fab4f9a886a5fe356327b82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HeroActionType: 0
   Cooldown: 2
   BaseDamage: 10
   DamageArea: {fileID: 2876911971642633216}
@@ -459,6 +461,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 936271c9a9e64e46a7d428eb16ed9dbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HeroActionType: 3
 --- !u!114 &3153137561755299345
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -541,6 +544,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c425c568a6f4400581ad7e25b9bb180f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HeroActionType: 2
   Radius: 2.73
   LayerMask:
     serializedVersion: 2
