@@ -21,6 +21,7 @@ namespace App.Rooms
         public int EnemiesLimit = 300;
 
         private EnemySpawner[] enemySpawners;
+        private bool isPaused;
 
         private void OnEnable()
         {
@@ -37,13 +38,24 @@ namespace App.Rooms
             StartCoroutine(RunWave());
         }
 
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.P))
+            {
+                isPaused = true;
+            } else if (Input.GetKeyDown(KeyCode.U))
+            {
+                isPaused = false;
+            }
+        }
+
         private IEnumerator RunWave()
         {
             var random = new XRandom(1337);
             yield return new WaitForSeconds(1f);
             var wave = 1;
             
-            while (AtLeastOnePlayerAlive())
+            while (AtLeastOnePlayerAlive() && !isPaused)
             {
                 var enemies = new List<ChaserEnemy>();
                 var enemyCount = random.Range(Mathf.Min(wave*10, 100), Mathf.Min(wave*12, 200));
@@ -51,7 +63,7 @@ namespace App.Rooms
                 var waveTime = 0.0f;
 
                 var aliveEnemies = enemies.Count(x => x.Health.IsAlive);
-                while (aliveEnemies < enemyCount || waveTime < WaveInterval)
+                while ((aliveEnemies < enemyCount || waveTime < WaveInterval) && !isPaused)
                 {
                     aliveEnemies = enemies.Count(x => x.Health.IsAlive);
                     var numOfEnemiesToSpawn = Mathf.Min(enemyCount - aliveEnemies, EnemiesLimit);
@@ -112,6 +124,5 @@ namespace App.Rooms
             }
             return false;
         }
-
     }
 }

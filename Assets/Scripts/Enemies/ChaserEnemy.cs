@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 
 namespace App.Enemies
 {
-    public class ChaserEnemy : MonoBehaviour
+    public class ChaserEnemy : NetworkBehaviour
     {
         public Transform Target;
         public float Speed = 5;
@@ -102,6 +102,16 @@ namespace App.Enemies
             {
                 Destroy(gameObject);
             }
+            else
+            {
+                DoDestroyServerRpc();
+            }
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        void DoDestroyServerRpc()
+        {
+            Destroy(gameObject);
         }
 
         private IEnumerator FindTargetInSight()
@@ -109,7 +119,7 @@ namespace App.Enemies
             var count = Physics.OverlapSphereNonAlloc(transform.position, SightRange, sightResults, TargetLayerMask);
             if (count > 0)
             {
-                SetTarget(sightResults[0].transform);
+                SetTarget(sightResults[Random.Range(0, count-1)].transform);
             }
 
             yield return null;

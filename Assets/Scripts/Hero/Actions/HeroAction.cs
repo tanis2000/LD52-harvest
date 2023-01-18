@@ -13,6 +13,7 @@ namespace App.Hero.Actions
 
         public void AddPowerUp(PowerUp powerUp)
         {
+            Debug.Log($"Adding powerup {powerUp.name} to action {GetType()} of {name}");
             powerUps.Add(powerUp);
         }
 
